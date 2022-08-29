@@ -28,17 +28,7 @@ const buildHTML = ({
     ${employeeId}
     ${email}
     ${officeNumber}
-
-    ${role}
-    ${name}
-    ${employeeId}
-    ${email}
     ${gitHub}
-
-    ${role}
-    ${name}
-    ${employeeId}
-    ${email}
     ${school}
 
 </body>
@@ -52,7 +42,7 @@ const newEmployee = () => {
         type: "list",
         message: "What is thier role?",
         name: "role",
-        choices: ["Manager", "Engineer", "Intern", "N/A"],
+        choices: ["Manager", "Engineer", "Intern"],
         validate: (value) => {
           if (value) {
             return true;
@@ -158,14 +148,21 @@ const newEmployee = () => {
       // BUILD HTML PAGE
     ])
     .then((employeeData) => {
-      let { name, id, email, role, github, school, confirmNewEmployee } =
-        employeeData;
+      let {
+        role,
+        name,
+        employeeId,
+        email,
+        gitHub,
+        school,
+        confirmNewEmployee,
+      } = employeeData;
       let employee = {};
       if (role === "Engineer") {
-        employee = new Engineer(name, id, email, github);
-        // console.log(employee);
+        employee = new Engineer(role, name, employeeId, email, gitHub);
+        console.log(employee);
       } else if (role === "Intern") {
-        employee = new Intern(name, id, email, school);
+        employee = new Intern(role, name, id, email, school);
         // console.log(employee);
       }
       teamArray.push(employee);
@@ -176,29 +173,11 @@ const newEmployee = () => {
         return teamArray;
       }
     })
-    .then((answers) => {
-      fs.writeFile("./index.html", buildHTML(answers), (err) =>
+    .then((employeeData, answers) => {
+      fs.writeFile("./index.html", buildHTML(employeeData, answers), (err) =>
         err ? console.error(err) : console.log("Success!")
       );
     });
 };
 
-// .then((employeeData) => {
-//   let { name, id, email, role, github, school, confirmNewEmployee } =
-//     employeeData;
-//   let employee = {};
-//   if (role === "Engineer") {
-//     employee = new Engineer(name, id, email, github);
-//     // console.log(employee);
-//   } else if (role === "Intern") {
-//     employee = new Intern(name, id, email, school);
-//     // console.log(employee);
-//   }
-//   teamArray.push(employee);
-
-//   if (confirmNewEmployee) {
-//     return newEmployee(teamArray);
-//   } else {
-//     return teamArray;
-//   }
-// });
+newEmployee();

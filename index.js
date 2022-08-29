@@ -1,6 +1,8 @@
 const inquirer = require("inquirer");
 const fs = require("fs");
 
+const teamArray = [];
+
 //run function that calls employee prompt and iniates field prompts for specific questions
 const buildHTML = ({
   role,
@@ -42,120 +44,161 @@ const buildHTML = ({
 </body>
 </html>`;
 
-inquirer
-  .prompt([
-    //ENTER ROLE
-    {
-      type: "list",
-      message: "What is thier role?",
-      name: "role",
-      choices: ["Manager", "Engineer", "Intern", "N/A"],
-      validate: (value) => {
-        if (value) {
-          return true;
-        } else {
-          return "Please choose a choose another team member to continue. If you did not add another person please choose N/A";
-        }
+const newEmployee = () => {
+  inquirer
+    .prompt([
+      //ENTER ROLE
+      {
+        type: "list",
+        message: "What is thier role?",
+        name: "role",
+        choices: ["Manager", "Engineer", "Intern", "N/A"],
+        validate: (value) => {
+          if (value) {
+            return true;
+          } else {
+            return "Please choose a choose another team member to continue. If you did not add another person please choose N/A";
+          }
+        },
       },
-    },
-    // ENTER NAME
-    {
-      type: "input",
-      message: "Please enter thier name:",
-      name: "name",
-      // this checks if the user enters a title into prompt
-      validate: (value) => {
-        if (value) {
-          return true;
-        } else {
-          return "Please enter a name to continue!";
-        }
+      // ENTER NAME
+      {
+        type: "input",
+        message: "Please enter thier name:",
+        name: "name",
+        // this checks if the user enters a title into prompt
+        validate: (value) => {
+          if (value) {
+            return true;
+          } else {
+            return "Please enter a name to continue!";
+          }
+        },
       },
-    },
-    //ENTER EMPLOYEE NUMBER
-    {
-      type: "input",
-      message: "Please enter their Employee Id #:",
-      name: "employeeId",
-      // this checks if the user enters a title into prompt
-      validate: (value) => {
-        if (value) {
-          return true;
-        } else {
-          return "Please enter a Employee Id # to continue!";
-        }
+      //ENTER EMPLOYEE NUMBER
+      {
+        type: "input",
+        message: "Please enter their Employee Id #:",
+        name: "employeeId",
+        // this checks if the user enters a title into prompt
+        validate: (value) => {
+          if (value) {
+            return true;
+          } else {
+            return "Please enter a Employee Id # to continue!";
+          }
+        },
       },
-    },
-    //ENTER ADDRESS
-    {
-      type: "input",
-      message: "Please enter thier email address:",
-      name: "email",
-      // this checks if the user enters a title into prompt
-      validate: (value) => {
-        if (value) {
-          return true;
-        } else {
-          return "Please enter a email address to continue!";
-        }
+      //ENTER ADDRESS
+      {
+        type: "input",
+        message: "Please enter thier email address:",
+        name: "email",
+        // this checks if the user enters a title into prompt
+        validate: (value) => {
+          if (value) {
+            return true;
+          } else {
+            return "Please enter a email address to continue!";
+          }
+        },
       },
-    },
-    //ENTER OFFICE NUMBER ** FOR MANAGER ONLY **
-    {
-      type: "input",
-      message: "Please enter an office #:",
-      name: "officeNumber",
-      // this checks if the user enters a title into prompt
-      when: (value) => value.role === "Manager",
-      validate: (value) => {
-        if (value) {
-          return true;
-        } else {
-          return "Please enter a office # to continue!";
-        }
+      //ENTER OFFICE NUMBER ** FOR MANAGER ONLY **
+      {
+        type: "input",
+        message: "Please enter an office #:",
+        name: "officeNumber",
+        // this checks if the user enters a title into prompt
+        when: (value) => value.role === "Manager",
+        validate: (value) => {
+          if (value) {
+            return true;
+          } else {
+            return "Please enter a office # to continue!";
+          }
+        },
       },
-    },
-    // ENTER GIT HUB USERNAME ** FOR ENGINEER ONLY **
-    {
-      type: "input",
-      message: "Please enter git hub username:",
-      name: "gitHub",
-      // this checks if the user enters a title into prompt
-      when: (value) => value.role === "Engineer",
-      validate: (value) => {
-        if (value) {
-          return true;
-        } else {
-          return "Please enter a git hub username to continue!";
-        }
+      // ENTER GIT HUB USERNAME ** FOR ENGINEER ONLY **
+      {
+        type: "input",
+        message: "Please enter git hub username:",
+        name: "gitHub",
+        // this checks if the user enters a title into prompt
+        when: (value) => value.role === "Engineer",
+        validate: (value) => {
+          if (value) {
+            return true;
+          } else {
+            return "Please enter a git hub username to continue!";
+          }
+        },
       },
-    },
-    // ENTER SCHOOL NAME ** FOR INTERN ONLY **
-    {
-      type: "input",
-      message: "Please enter school name:",
-      name: "school",
-      // this checks if the user enters a title into prompt
-      when: (value) => value.role === "Intern",
-      validate: (value) => {
-        if (value) {
-          return true;
-        } else {
-          return "Please enter a school name to continue!";
-        }
+      // ENTER SCHOOL NAME ** FOR INTERN ONLY **
+      {
+        type: "input",
+        message: "Please enter school name:",
+        name: "school",
+        // this checks if the user enters a title into prompt
+        when: (value) => value.role === "Intern",
+        validate: (value) => {
+          if (value) {
+            return true;
+          } else {
+            return "Please enter a school name to continue!";
+          }
+        },
       },
-    },
-    {
-      type: "confirm",
-      message: "Would you like to add a new employee?",
-      name: "confirmNewEmployee",
-      default: false,
-    },
+      {
+        type: "confirm",
+        message: "Would you like to add a new employee?",
+        name: "confirmNewEmployee",
+        default: false,
+      },
 
-    // BUILD HTML PAGE
-  ])
-  .then((answers) => {
-    fs.writeFile("./index.html", buildHTML(answers), (err) =>
-      err ? console.error(err) : console.log("Success!")
-    );
-  });
+      // BUILD HTML PAGE
+    ])
+    .then((employeeData) => {
+      let { name, id, email, role, github, school, confirmNewEmployee } =
+        employeeData;
+      let employee = {};
+      if (role === "Engineer") {
+        employee = new Engineer(name, id, email, github);
+        // console.log(employee);
+      } else if (role === "Intern") {
+        employee = new Intern(name, id, email, school);
+        // console.log(employee);
+      }
+      teamArray.push(employee);
+
+      if (confirmNewEmployee) {
+        return newEmployee(teamArray);
+      } else {
+        return teamArray;
+      }
+    })
+    .then((answers) => {
+      fs.writeFile("./index.html", buildHTML(answers), (err) =>
+        err ? console.error(err) : console.log("Success!")
+      );
+    });
+};
+
+// .then((employeeData) => {
+//   let { name, id, email, role, github, school, confirmNewEmployee } =
+//     employeeData;
+//   let employee = {};
+//   if (role === "Engineer") {
+//     employee = new Engineer(name, id, email, github);
+//     // console.log(employee);
+//   } else if (role === "Intern") {
+//     employee = new Intern(name, id, email, school);
+//     // console.log(employee);
+//   }
+//   teamArray.push(employee);
+
+//   if (confirmNewEmployee) {
+//     return newEmployee(teamArray);
+//   } else {
+//     return teamArray;
+//   }
+// });

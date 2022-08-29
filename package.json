@@ -1,0 +1,29 @@
+{
+  "name": "challenge10-teamprofilegenerator",
+  "version": "1.0.0",
+  "description": "Team Profile Generator",
+  "main": "index.js",
+  "directories": {
+    "lib": "lib",
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/drewlovato/challenge10-teamprofilegenerator.git"
+  },
+  "author": "Andrew Lovato",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/drewlovato/challenge10-teamprofilegenerator/issues"
+  },
+  "homepage": "https://github.com/drewlovato/challenge10-teamprofilegenerator#readme",
+  "dependencies": {
+    "inquirer": "^8.2.4"
+  },
+  "devDependencies": {
+    "jest": "^28.1.3"
+  }
+}

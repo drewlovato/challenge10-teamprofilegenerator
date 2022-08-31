@@ -195,15 +195,88 @@ const newEmployee = () => {
       if (confirmNewEmployee) {
         return newEmployee(teamArray);
       } else {
-        writeFile(buildHTML(teamArray));
-        console.log(teamArray);
+        writeFile(buildTeamCards(teamArray));
+        console.log(buildTeamCards(teamArray));
         return teamArray;
       }
     });
 };
 
+// TAKE EACH ROLE WITH DESIGNATED CHAR AND PRINT THEM TO DESIGNATED CARD
+function buildTeamCards(teamArray) {
+  //Array of HTML strings from the generated cards
+  documentArray = [];
+  for (let i = 0; i < teamArray.length; i++) {
+    const employeeChars = teamArray[i];
+    // console.log(employeeChars);
+    const role = employeeChars.getRole();
+    // console.log(role);
+    if (role === "Manager") {
+      const managerCard = createManager(employeeChars);
+      documentArray.push(managerCard);
+    } else if (role === "Engineer") {
+      const engineerCard = createEngineer(employeeChars);
+      documentArray.push(engineerCard);
+    } else if (role === "Intern") {
+      const internCard = createIntern(employeeChars);
+      documentArray.push(internCard);
+    }
+  }
+  return documentArray;
+}
+
+// CREATE HTML FOR EACH PROFILE
+function createManager(manager) {
+  return `<div class="card" style="width: 18rem">
+  <div class="card-body card-header">
+    <h4 class="card-title">${manager.name}</h4>
+    <h6 class="card-subtitle mb-2"><i class="bi bi-cup-hot"></i> Manager</h6>
+  </div>
+  <div class="card-body">
+    <ul class="list-group list-group-flush">
+      <li class="list-group-item">ID: ${manager.id}</li>
+      <li class="list-group-item">Email: <a href="mailto:${manager.email}">${manager.email}</a></li>
+      <li class="list-group-item">Office Number: ${manager.officeNumber}</li>
+    </ul>
+  </div>
+</div>`;
+}
+
+function createEngineer(engineer) {
+  return `<div class="card" style="width: 18rem">
+  <div class="card-body card-header">
+    <h4 class="card-title">${engineer.name}</h4>
+    <h6 class="card-subtitle mb-2"><i class="bi bi-eyeglasses"></i> Engineer</h6>
+  </div>
+  <div class="card-body">
+    <ul class="list-group list-group-flush">
+      <li class="list-group-item">ID: ${engineer.id}</li>
+      <li class="list-group-item">Email: <a href="mailto:${engineer.email}">${engineer.email}</a></li>
+      <li class="list-group-item">GitHub Name: <a href="https://github.com/${engineer.github}" target="_blank">${engineer.github}</a></li>
+    </ul>
+  </div>
+</div>`;
+}
+
+function createIntern(intern) {
+  return `<div class="card" style="width: 18rem">
+  <div class="card-body card-header">
+    <h4 class="card-title">${intern.name}</h4>
+    <h6 class="card-subtitle mb-2"><i class="bi bi-mortarboard"></i> Intern</h6>
+  </div>
+  <div class="card-body">
+    <ul class="list-group list-group-flush">
+      <li class="list-group-item">ID: ${intern.id}</li>
+      <li class="list-group-item">Email: <a href="mailto:${intern.email}">${intern.email}</a></li>
+      <li class="list-group-item">School: ${intern.school}</li>
+    </ul>
+  </div>
+</div>`;
+}
+
 newManager();
 
+// WRITING CARDS CARDS TO HTML PAGE
 const writeFile = (value) => {
   fs.writeFile("./index.html", JSON.stringify(value), (err) => {
     if (err) {
@@ -217,13 +290,13 @@ const writeFile = (value) => {
   });
 };
 
-const buildHTML = ({
-  role,
-  name,
-  employeeId,
-  email,
-  officeNumber,
-  gitHub,
-  school,
-}) =>
-  `<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Document</title></head><body><header>Team Profile</header>${role}${name}${employeeId}${email}${officeNumber}${gitHub}${school}</body></html>`;
+// const buildHTML = ({
+//   role,
+//   name,
+//   employeeId,
+//   email,
+//   officeNumber,
+//   gitHub,
+//   school,
+// }) =>
+//   `<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Document</title></head><body><header>Team Profile</header>${role}${name}${employeeId}${email}${officeNumber}${gitHub}${school}</body></html>`;

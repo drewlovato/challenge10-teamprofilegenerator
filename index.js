@@ -229,13 +229,12 @@ function buildTeamCards(teamArray) {
       documentArray.push(internCard);
     }
   }
-  // return documentArray.join(" ");
 
   const createDocument = createDocumentPage(documentArray.join(""));
   return createDocument;
 }
 
-//HTML Template for generated team roster
+//HTML TEMPLATE FOR CREATING ENTIRE TEAM FOLIO
 function createDocumentPage(employeeProfiles) {
   return `<!DOCTYPE html>
   <html lang="en">

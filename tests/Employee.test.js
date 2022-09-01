@@ -1,14 +1,13 @@
-const Employee = require("../Employee.js");
+const Employee = require("../lib/Employee");
 
-test("should return an object that lists the different postions that the employees hold", () => {
-  const questions = [
-    {
-      type: "list",
-      message: "What liscense did you use for your project?",
-      name: "liscence",
-      choices: ["Manager", "Engineer", "Intern"],
-    },
-  ];
-
-  expect(Employee(questions)).toEqual(questions);
+describe("Employee", () => {
+  it("This creates the Employee main index", () => {
+    const employees = new Employee("Andrew", 6758, "andrew@gmail.com", manager);
+    expect(employees).toEqual({
+      name: "Andrew",
+      employeeId: 6758,
+      email: "andrew@gmail.com",
+      role: manager,
+    });
+  });
 });

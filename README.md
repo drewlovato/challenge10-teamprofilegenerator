@@ -1,4 +1,4 @@
-# challenge10-teamprofilegenerator
+# Challenge 10- Team Profile Generator
 
 ## DU Bootcamp - Challenge 10 Team Profile Generator
 

@@ -144,7 +144,7 @@ const newEmployee = () => {
       {
         type: "input",
         message: "Please enter git hub username:",
-        name: "gitHub",
+        name: "github",
         // this checks if the user enters a title into prompt
         when: (value) => value.role === "Engineer",
         validate: (value) => {
@@ -180,14 +180,21 @@ const newEmployee = () => {
       // PROMISE FOR NEW EMPLOYEE
     ])
     .then((employeeValues) => {
-      let { role, name, id, email, github, school, confirmNewEmployee } =
-        employeeValues;
+      let {
+        role,
+        name,
+        employeeId,
+        email,
+        github,
+        school,
+        confirmNewEmployee,
+      } = employeeValues;
       let employee = {};
       if (role === "Engineer") {
-        employee = new Engineer(name, id, email, github);
+        employee = new Engineer(name, employeeId, email, github);
         // console.log(employee);
       } else if (role === "Intern") {
-        employee = new Intern(name, id, email, school);
+        employee = new Intern(name, employeeId, email, school);
         // console.log(employee);
       }
       teamArray.push(employee);
@@ -222,7 +229,45 @@ function buildTeamCards(teamArray) {
       documentArray.push(internCard);
     }
   }
-  return documentArray;
+  // return documentArray.join(" ");
+
+  const createDocument = createDocumentPage(documentArray.join(""));
+  return createDocument;
+}
+
+//HTML Template for generated team roster
+function createDocumentPage(employeeProfiles) {
+  return `<!DOCTYPE html>
+  <html lang="en">
+    <head>
+      <meta charset="UTF-8" />
+      <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+        integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx"
+        crossorigin="anonymous"
+      />
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
+      <link href="./css/style.css" rel="stylesheet">
+      <title>The Team</title>
+    </head>
+    <header>
+        <h1>Team Profiles</h1>
+    </header>
+    <body>
+      <div class="container">
+        ${employeeProfiles}
+        <script
+          src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa"
+          crossorigin="anonymous"
+        ></script>
+      </div>
+    </body>
+  </html>
+  `;
 }
 
 // CREATE HTML FOR EACH PROFILE
@@ -234,7 +279,7 @@ function createManager(manager) {
   </div>
   <div class="card-body">
     <ul class="list-group list-group-flush">
-      <li class="list-group-item">ID: ${manager.id}</li>
+      <li class="list-group-item">ID: ${manager.employeeId}</li>
       <li class="list-group-item">Email: <a href="mailto:${manager.email}">${manager.email}</a></li>
       <li class="list-group-item">Office Number: ${manager.officeNumber}</li>
     </ul>
@@ -250,7 +295,7 @@ function createEngineer(engineer) {
   </div>
   <div class="card-body">
     <ul class="list-group list-group-flush">
-      <li class="list-group-item">ID: ${engineer.id}</li>
+      <li class="list-group-item">ID: ${engineer.employeeId}</li>
       <li class="list-group-item">Email: <a href="mailto:${engineer.email}">${engineer.email}</a></li>
       <li class="list-group-item">GitHub Name: <a href="https://github.com/${engineer.github}" target="_blank">${engineer.github}</a></li>
     </ul>
@@ -266,7 +311,7 @@ function createIntern(intern) {
   </div>
   <div class="card-body">
     <ul class="list-group list-group-flush">
-      <li class="list-group-item">ID: ${intern.id}</li>
+      <li class="list-group-item">ID: ${intern.employeeId}</li>
       <li class="list-group-item">Email: <a href="mailto:${intern.email}">${intern.email}</a></li>
       <li class="list-group-item">School: ${intern.school}</li>
     </ul>
@@ -274,11 +319,9 @@ function createIntern(intern) {
 </div>`;
 }
 
-newManager();
-
 // WRITING CARDS CARDS TO HTML PAGE
 const writeFile = (value) => {
-  fs.writeFile("./index.html", JSON.stringify(value), (err) => {
+  fs.writeFile("./assets/index.html", value, (err) => {
     if (err) {
       console.log(err);
       return;
@@ -290,13 +333,4 @@ const writeFile = (value) => {
   });
 };
 
-// const buildHTML = ({
-//   role,
-//   name,
-//   employeeId,
-//   email,
-//   officeNumber,
-//   gitHub,
-//   school,
-// }) =>
-//   `<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Document</title></head><body><header>Team Profile</header>${role}${name}${employeeId}${email}${officeNumber}${gitHub}${school}</body></html>`;
+newManager();

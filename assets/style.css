@@ -1,0 +1,13 @@
+body {
+    width: 100%;
+}
+
+h1{
+    text-align: center;
+}
+
+.container .row {
+    display: flex;
+    justify-content: center;
+    margin-left: 10px;
+}

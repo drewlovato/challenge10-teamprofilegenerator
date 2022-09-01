@@ -254,10 +254,10 @@ function createDocumentPage(employeeProfiles) {
       <title>The Team</title>
     </head>
     <header>
-        <h1>Team Profiles</h1>
+        <h1 class="mx-auto mt-5 mb-5" style="width: 300px;">Team Profiles</h1>
     </header>
     <body>
-      <div class="container">
+      <div class="container row mx-auto">
         ${employeeProfiles}
         <script
           src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js"
@@ -272,7 +272,7 @@ function createDocumentPage(employeeProfiles) {
 
 // CREATE HTML FOR EACH PROFILE
 function createManager(manager) {
-  return `<div class="card" style="width: 18rem">
+  return `<div class="card .col-xs-6 .col-md-4 mx-auto" style="width: 25rem">
   <div class="card-body card-header">
     <h4 class="card-title">${manager.name}</h4>
     <h6 class="card-subtitle mb-2"><i class="bi bi-cup-hot"></i> Manager</h6>
@@ -288,7 +288,7 @@ function createManager(manager) {
 }
 
 function createEngineer(engineer) {
-  return `<div class="card" style="width: 18rem">
+  return `<div class="card .col-xs-6 .col-md-4 mx-auto" style="width: 25rem">
   <div class="card-body card-header">
     <h4 class="card-title">${engineer.name}</h4>
     <h6 class="card-subtitle mb-2"><i class="bi bi-eyeglasses"></i> Engineer</h6>
@@ -304,7 +304,7 @@ function createEngineer(engineer) {
 }
 
 function createIntern(intern) {
-  return `<div class="card" style="width: 18rem">
+  return `<div class="card .col-xs-6 .col-md-4 mx-auto" style="width: 25rem">
   <div class="card-body card-header">
     <h4 class="card-title">${intern.name}</h4>
     <h6 class="card-subtitle mb-2"><i class="bi bi-mortarboard"></i> Intern</h6>

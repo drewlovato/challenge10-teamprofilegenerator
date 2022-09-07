@@ -67,6 +67,6 @@ To contact me personally please use email below:
 
 ### Video:
 
-- located in assets folder
+- Video is too large to be embedded in Github README.md document. Please refer to assets folder for video. 
 
 #### back to [table-of-contents](#table-of-contents)
